@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lukas
-  Date: 10.4.2017
-  Time: 21:17
-  To change this template use File | Settings | File Templates.
---%>
 <%@page contentType="text/html;charset=utf-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -13,7 +6,7 @@
 <table border="1">
     <thead>
     <tr>
-        <th>název</th>
+        <th>názov</th>
         <th>rok</th>
         <th>klasifikácia</th>
         <th>popis</th>
@@ -28,12 +21,12 @@
             <td><c:out value="${movie.description}"/></td>
             <td><c:out value="${movie.location}"/></td>
             <td><form method="post" action="${pageContext.request.contextPath}/movies/delete?id=${movie.id}"
-                      style="margin-bottom: 0;"><input type="submit" value="Smazat"></form></td>
+                      style="margin-bottom: 0;"><input type="submit" value="Zmazať"></form></td>
         </tr>
     </c:forEach>
 </table>
 
-<h2>Zadejte film</h2>
+<h2>Zadajte film</h2>
 <c:if test="${not empty chyba}">
     <div style="border: solid 1px red; background-color: yellow; padding: 10px">
         <c:out value="${chyba}"/>
@@ -42,7 +35,7 @@
 <form action="${pageContext.request.contextPath}/movies/add" method="post">
     <table>
         <tr>
-            <th>název filmu:</th>
+            <th>názov filmu:</th>
             <td><input type="text" name="name" value="<c:out value='${param.name}'/>"/></td>
         </tr>
         <tr>
@@ -62,7 +55,7 @@
             <td><input type="text" name="location" value="<c:out value='${param.location}'/>"/></td>
         </tr>
     </table>
-    <input type="Submit" value="Zadat" />
+    <input type="Submit" value="Zadať" />
 </form>
 </body>
 </html>

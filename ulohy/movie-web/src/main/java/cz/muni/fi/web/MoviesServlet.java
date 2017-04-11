@@ -44,11 +44,28 @@ public class MoviesServlet extends HttpServlet {
                 String description = request.getParameter("description");
                 String location = request.getParameter("location");
                 //form data validity check
-                if (name == null || name.length() == 0 || year == null || year.length() == 0 ||
-                        classification == null || classification.length() == 0 ||
-                        description == null || description.length() == 0 ||
-                        location == null || location.length() == 0) {
-                    request.setAttribute("chyba", "Je nutné vyplnit všechny hodnoty !");
+                if (name == null || name.length() == 0 || classification == null || classification.length() == 0 ||
+                        year == null || year.length() == 0) {
+                    request.setAttribute("chyba", "Je nutné vyplnit názov, rok a klasifikáciu!");
+                    log.debug("form data invalid");
+                    showMoviesList(request, response);
+                    return;
+                }
+                if (name.matches("\\s*") || !(classification.matches("U|G|PG|R|(.*)([0-9]|1[0-9]|2[0-1])(.*)")) ||
+                        Integer.parseInt(year) < 1900) {
+                    request.setAttribute("chyba", "Neplatný názov, rok alebo klasifikácia!");
+                    log.debug("form data invalid");
+                    showMoviesList(request, response);
+                    return;
+                }
+                if (description != null && description.length() != 0 && description.matches("\\s*")) {
+                    request.setAttribute("chyba", "Neplatný popis!");
+                    log.debug("form data invalid");
+                    showMoviesList(request, response);
+                    return;
+                }
+                if (location != null && location.length() != 0 && location.matches("\\s*")) {
+                    request.setAttribute("chyba", "Neplatná lokácia!");
                     log.debug("form data invalid");
                     showMoviesList(request, response);
                     return;
@@ -108,8 +125,8 @@ public class MoviesServlet extends HttpServlet {
     private void showMoviesList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             log.debug("showing table of movies");
-            List<Movie> aha = getMovieManager().getAllMovies();
-            request.setAttribute("movies", aha);
+            List<Movie> allMovies = getMovieManager().getAllMovies();
+            request.setAttribute("movies", allMovies);
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
         } catch (RuntimeException e) {
             log.error("Cannot show movies", e);
