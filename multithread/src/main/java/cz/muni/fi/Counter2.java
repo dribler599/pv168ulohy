@@ -21,7 +21,7 @@ public class Counter2 implements Runnable {
     public void run() {
         while(counter <= 50) {
             increment();
-            for (long l = 0l; l < 1000; l++) {}
+            for (long l = 0l; l < 1000000; l++) {}
         }
     }
 

@@ -9,14 +9,13 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Counter implements Runnable {
 
-    static int counter = 0; // a global counter
+    static int counter = 0;
 
     static ReentrantLock counterLock = new ReentrantLock(true); // enable fairness policy
 
-    static void incrementCounter(){
+    static void increment(){
         counterLock.lock();
 
-        // Always good practice to enclose locks in a try-finally block
         try{
             if (counter <= 50) {
                 System.out.println(Thread.currentThread().getName() + ": " + counter);
@@ -30,7 +29,7 @@ public class Counter implements Runnable {
     @Override
     public void run() {
         while(counter <= 50){
-            incrementCounter();
+            increment();
         }
     }
 

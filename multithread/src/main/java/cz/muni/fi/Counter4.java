@@ -1,27 +1,37 @@
 package cz.muni.fi;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Lukas on 26.4.2017.
  */
-public class Counter3 implements Runnable {
+public class Counter4 implements Runnable{
     static AtomicInteger counter = new AtomicInteger(0);
 
-    public void increment () {
-        System.out.println(Thread.currentThread().getName() + ": " + counter.getAndIncrement());
+    static ReentrantLock counterLock = new ReentrantLock(true);
+
+    static void increment(){
+        counterLock.lock();
+
+        try{
+            if (counter.get() <= 50) {
+                System.out.println(Thread.currentThread().getName() + ": " + counter.getAndIncrement());
+            }
+        }finally{
+            counterLock.unlock();
+        }
     }
 
     @Override
     public void run() {
         while(counter.get() <= 50) {
             increment();
-            for (long l = 0l; l < 10000; l++) {}
         }
     }
 
     public static void main(String[] args) {
-        Runnable counter = new Counter3();
+        Runnable counter = new Counter4();
 
         Thread thread1 = new Thread(counter);
         thread1.setName("vlákno 1");
