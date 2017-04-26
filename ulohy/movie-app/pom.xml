@@ -11,9 +11,16 @@
     <name>Books aggregator module</name>
 
     <modules>
-        <module>../movie-jdbc</module>
-        <module>../movie-web</module>
+        <module>movie-jdbc</module>
+        <module>movie-web</module>
     </modules>
+
+    <parent>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>Athens-SR3</version>
+        <relativePath/>
+    </parent>
 
     <build>
         <!-- plugin versions inherited by child modules -->
